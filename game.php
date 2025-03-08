@@ -20,7 +20,7 @@ $username = $_SESSION['username'];
     <div class="container">
         <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
         <p>Time Left: <span id="timer">30</span> seconds</p>
-        <button onclick="window.location.href='save_score.php'">View High Scores</button>
+        
         <div id="game-container">
             <div id="puzzle">
                 <img id="puzzle-image" src="" alt="Puzzle Image">
@@ -29,6 +29,7 @@ $username = $_SESSION['username'];
             </div>
             <p>Score: <span id="score">0</span></p>
             <button onclick="loadNextPuzzle()">Next Puzzle</button>
+            <button onclick="window.location.href='save_score.php'">View High Scores</button>
         </div>
         <button onclick="logout()">Logout</button>
     </div>
