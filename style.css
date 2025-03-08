@@ -47,12 +47,12 @@ body {
     padding: 0;
 }
 .container {
-    width: 60%;
+    width: 70%;
     margin: auto;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.7); 
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin-top: 100px;
-    color: #811f1f; 
+    color: #f9f9f9; 
 }
