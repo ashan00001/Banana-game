@@ -25,5 +25,26 @@ if (isset($_SESSION['username'])) {
         </form>
         <p>Don't have an account? <a href="register.php">Register here</a></p>
     </div>
+
+    <?php
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        
+        require_once 'config.php';
+
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $username;
+            header('Location: game.php');
+            exit();
+        } else {
+            echo '<p class="error">Invalid username or password.</p>';
+        }
+    }
+    ?>
 </body>
 </html>
