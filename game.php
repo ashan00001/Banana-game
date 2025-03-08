@@ -24,9 +24,10 @@ $username = $_SESSION['username'];
         <div id="game-container">
             <div id="puzzle">
                 <img id="puzzle-image" src="" alt="Puzzle Image">
-                <input type="text" id="answer" placeholder="Enter your answer">
-                <button onclick="checkAnswer()">Submit</button>
+                
             </div>
+            <input type="text" id="answer" placeholder="Enter your answer">
+                <button onclick="checkAnswer()">Submit</button>
             <p>Score: <span id="score">0</span></p>
             <button onclick="loadNextPuzzle()">Next Puzzle</button>
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
