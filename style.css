@@ -37,3 +37,22 @@ input {
 #error {
     color: red;
 }
+body {
+    font-family: Arial, sans-serif;
+    background: url('images/background.jpg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #eae439; 
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 100px;
+    color: #811f1f; 
+}
