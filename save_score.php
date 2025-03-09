@@ -42,7 +42,7 @@ $high_scores = $stmt->fetchAll();
 <body>
     <div class="container">
         <h2>Top 3 High Scores</h2>
-        <table border="1">
+       <center> <table border="1"> </center>
             <tr>
                 <th>Rank</th>
                 <th>User</th>
