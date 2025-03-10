@@ -100,6 +100,29 @@ $username = $_SESSION['username'];
         window.onload = function() {
             loadNextPuzzle();
         };
+         
+           document.addEventListener("DOMContentLoaded", function () {
+    const clickSound = new Audio("sounds/click");
+
+    function playClickSound() {
+        const soundClone = clickSound.cloneNode();
+        soundClone.volume = 1.0; 
+        soundClone.play().catch(error => console.error("Playback error:", error));
+    }
+
+    
+    document.body.addEventListener("click", function (event) {
+        if (event.target.tagName === "BUTTON") {
+            playClickSound();
+        }
+    });
+
+    document.body.addEventListener("click", function unlockAudio() {
+        clickSound.play().catch(() => {});
+        document.body.removeEventListener("click", unlockAudio);
+    });
+});
+
     </script>
 </body>
 </html>
