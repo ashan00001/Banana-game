@@ -102,7 +102,7 @@ $username = $_SESSION['username'];
         };
          
            document.addEventListener("DOMContentLoaded", function () {
-    const clickSound = new Audio("sounds/click");
+    const clickSound = new Audio("sounds/click.wav");
 
     function playClickSound() {
         const soundClone = clickSound.cloneNode();
