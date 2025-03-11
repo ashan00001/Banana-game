@@ -92,7 +92,13 @@ $username = $_SESSION['username'];
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send('username=<?php echo $username; ?>&score=' + score);
         }
-
+        function restartGame() {
+            score = 0;
+            currentQuestion = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('new-game').style.display = 'none';
+            loadNextPuzzle();
+        }
         function logout() {
             window.location.href = 'login.php';
         }
