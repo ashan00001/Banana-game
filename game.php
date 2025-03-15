@@ -74,6 +74,17 @@ $username = $_SESSION['username'];
             currentQuestion++;
             startTimer();
         }
+        function loadNextPuzzle() {
+    if (currentQuestion >= puzzles.length) {
+        currentQuestion = 0; 
+    }
+    const puzzle = puzzles[currentQuestion];
+    document.getElementById('puzzle-image').src = puzzle.image;
+    document.getElementById('answer').value = '';
+    currentQuestion++;
+    startTimer();
+}
+
 
         function checkAnswer() {
             const answer = document.getElementById('answer').value;
