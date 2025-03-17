@@ -108,6 +108,20 @@ $currentHighScore = $result['highscore'] ?? 0;
         function logout() {
             window.location.href = 'logout.php';
         }
+        function updateHighScore() {
+    fetch("get_highscore.php")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("current-highscore").textContent = data.highscore;
+        })
+        .catch(error => console.error("Error fetching highscore:", error));
+}
+
+window.onload = function() {
+    fetchBananaQuestion();
+    updateHighScore(); // Fetch high score on game load
+};
+
 
         window.onload = function() {
             fetchBananaQuestion();
