@@ -65,3 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
         
         <?php if (!empty($message)) echo $message; ?>
+        <div id="loginForm">
+            <h3>Login</h3>
+            <form action="" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required><br><br>
+                <button type="submit" name="login">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" onclick="toggleForm()">Create an account</a></p>
+        </div>
