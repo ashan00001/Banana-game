@@ -15,7 +15,7 @@ body {
     max-width: 700px;
     margin: 100px auto;
     padding: 30px;
-    background: url('images/background.jpg.jpg') no-repeat center center fixed;
+    background: url('images/green') no-repeat center center fixed;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.8); 
     border-radius: 12px;
