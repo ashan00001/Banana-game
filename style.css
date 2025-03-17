@@ -1,44 +1,6 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-    text-align: center;
-}
-
-.container {
-    width: 60%;
-    margin: auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-input {
-    padding: 10px;
-    width: 200px;
-    margin: 10px 0;
-}
-
-#error {
-    color: red;
-}
-body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     background: url('images/background.jpg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #eae439; 
@@ -46,13 +8,59 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/* Container Styling */
 .container {
-    width: 70%;
-    margin: auto;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.7); 
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin-top: 100px;
+    width: 50%;
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     color: #f9f9f9; 
+    text-align: center;
+}
+
+/* Form Styling */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: linear-gradient(45deg, #f1c40f, #e67e22);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #e67e22, #f1c40f);
+    transform: scale(1.05);
+}
+
+/* Error Message */
+#error {
+    color: #ff4d4d;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
 }
