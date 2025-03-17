@@ -16,6 +16,16 @@ $username = $_SESSION['username'];
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<?php
+require_once 'config.php';
+$stmt = $pdo->query('SELECT MAX(score) AS highscore FROM high_scores');
+$result = $stmt->fetch();
+$currentHighScore = $result['highscore'] ?? 0;
+?>
+<div id="highscore-container">
+    <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
+</div>
+
     <div class="container">
         <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
         <p>Time Left: <span id="timer">30</span> seconds</p>
