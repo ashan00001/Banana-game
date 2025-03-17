@@ -39,3 +39,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Banana Puzzle Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function toggleForm() {
+            document.getElementById("loginForm").classList.toggle("hidden");
+            document.getElementById("registerForm").classList.toggle("hidden");
+        }
+    </script>
+    <style>
+        .hidden { display: none; }
+        .container { text-align: center; width: 300px; margin: auto; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Banana Puzzle Game</h2>
+
+        
+        <?php if (!empty($message)) echo $message; ?>
