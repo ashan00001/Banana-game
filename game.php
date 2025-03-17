@@ -6,6 +6,15 @@ if (!isset($_SESSION['username'])) {
 }
 
 $username = $_SESSION['username'];
+require_once 'config.php';
+
+// Fetch player stats
+$stmt = $pdo->prepare('SELECT COUNT(*) AS total_games, SUM(CASE WHEN score = 0 THEN 1 ELSE 0 END) AS losses, MAX(score) AS highscore FROM high_scores WHERE username = ?');
+$stmt->execute([$username]);
+$result = $stmt->fetch();
+$totalGames = $result['total_games'] ?? 0;
+$totalLosses = $result['losses'] ?? 0;
+$currentHighScore = $result['highscore'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,23 +25,24 @@ $username = $_SESSION['username'];
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<?php
-require_once 'config.php';
-$stmt = $pdo->query('SELECT MAX(score) AS highscore FROM high_scores');
-$result = $stmt->fetch();
-$currentHighScore = $result['highscore'] ?? 0;
-?>
-<div id="highscore-container">
-    <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
-</div>
-
+    <div id="profile-container" onclick="toggleProfile()">
+        <p>👤 <?php echo htmlspecialchars($username); ?></p>
+        <div id="profile-details">
+            <p>Total Plays: <?php echo $totalGames; ?></p>
+            <p>Losses: <?php echo $totalLosses; ?></p>
+            <p>Current Score: <span id="current-score">0</span></p>
+            <p>🏆 High Score: <?php echo $currentHighScore; ?></p>
+        </div>
+    </div>
+    <div id="highscore-container">
+        <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
+    </div>
     <div class="container">
         <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
         <p>Time Left: <span id="timer">30</span> seconds</p>
-        
         <div id="game-container">
             <div id="puzzle">
-                <img id="puzzle-image" src="" alt="Puzzle Image" style="max-width: 300px;">
+                <img id="puzzle-image" src="" alt="Puzzle Image">
             </div>
             <input type="number" id="answer" placeholder="Enter the number of bananas">
             <button onclick="checkAnswer()">Submit</button>
@@ -40,13 +50,18 @@ $currentHighScore = $result['highscore'] ?? 0;
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
         </div>
         <button onclick="logout()">Logout</button>
+        <audio id="logout-sound" src="logout.mp3"></audio>
     </div>
-
     <script>
         let score = 0;
         let timeLeft = 30;
         let timer;
         let correctAnswer = null;
+
+        function toggleProfile() {
+            const profileDetails = document.getElementById("profile-details");
+            profileDetails.style.display = (profileDetails.style.display === "block") ? "none" : "block";
+        }
 
         function startTimer() {
             clearInterval(timer);
@@ -65,26 +80,19 @@ $currentHighScore = $result['highscore'] ?? 0;
 
         async function fetchBananaQuestion() {
             try {
-                const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const apiUrl = encodeURIComponent('http://marcconrad.com/uob/banana/api.php');
-                const response = await fetch(`${proxyUrl}${apiUrl}`);
-                const responseData = await response.json();
-                
-                const data = JSON.parse(responseData.contents);
-                console.log("API Response:", data);
-                
-                if (!data || !data.question || !data.solution) {
-                    throw new Error("Invalid API response format");
-                }
-                
+                const response = await fetch('https://marcconrad.com/uob/banana/api.php', { cache: "no-store" });
+                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+                const data = await response.json();
+                if (!data || !data.question || !data.solution) throw new Error("Invalid API response format");
+
                 document.getElementById('puzzle-image').src = data.question;
                 correctAnswer = parseInt(data.solution);
                 document.getElementById('answer').value = '';
                 startTimer();
             } catch (error) {
                 console.error("Error fetching the puzzle:", error);
-                document.getElementById('puzzle-image').src = "";
-                document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh and try again.</p>";
+                document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh.</p>";
             }
         }
 
@@ -93,8 +101,9 @@ $currentHighScore = $result['highscore'] ?? 0;
             if (answer === correctAnswer) {
                 score++;
                 document.getElementById('score').textContent = score;
+                document.getElementById('current-score').textContent = score;
+                fetchBananaQuestion();
             }
-            fetchBananaQuestion();
         }
 
         function saveScore() {
@@ -106,47 +115,16 @@ $currentHighScore = $result['highscore'] ?? 0;
         }
 
         function logout() {
-            window.location.href = 'logout.php';
+            const logoutSound = document.getElementById('logout-sound');
+            logoutSound.play();
+            setTimeout(() => {
+                window.location.href = 'logout.php';
+            }, 1000);
         }
-        function updateHighScore() {
-    fetch("get_highscore.php")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("current-highscore").textContent = data.highscore;
-        })
-        .catch(error => console.error("Error fetching highscore:", error));
-}
-
-window.onload = function() {
-    fetchBananaQuestion();
-    updateHighScore(); // Fetch high score on game load
-};
-
 
         window.onload = function() {
             fetchBananaQuestion();
         };
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const clickSound = new Audio("sounds/click.wav");
-
-            function playClickSound() {
-                const soundClone = clickSound.cloneNode();
-                soundClone.volume = 1.0;
-                soundClone.play().catch(error => console.error("Playback error:", error));
-            }
-
-            document.body.addEventListener("click", function (event) {
-                if (event.target.tagName === "BUTTON") {
-                    playClickSound();
-                }
-            });
-
-            document.body.addEventListener("click", function unlockAudio() {
-                clickSound.play().catch(() => {});
-                document.body.removeEventListener("click", unlockAudio);
-            });
-        });
     </script>
 </body>
 </html>
