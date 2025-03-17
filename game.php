@@ -27,7 +27,6 @@ $username = $_SESSION['username'];
             <input type="number" id="answer" placeholder="Enter the number of bananas">
             <button onclick="checkAnswer()">Submit</button>
             <p>Score: <span id="score">0</span></p>
-            <button onclick="fetchBananaQuestion()">Next Puzzle</button>
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
         </div>
         <button onclick="logout()">Logout</button>
