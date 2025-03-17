@@ -1,8 +1,6 @@
 /* General Styles */
 body {
     font-family: 'Poppins', Arial, sans-serif;
-    background: url('images/background.jpg.jpg') no-repeat center center fixed;
-    background-size: cover;
     color: #eae439; 
     text-align: center;
     margin: 0;
@@ -15,6 +13,8 @@ body {
     max-width: 500px;
     margin: 100px auto;
     padding: 30px;
+    background: url('images/background.jpg.jpg') no-repeat center center fixed;
+    background-size: cover;
     background-color: rgba(0, 0, 0, 0.8); 
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
