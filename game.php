@@ -14,7 +14,6 @@ $username = $_SESSION['username'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banana Puzzle Game</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
     <div class="container">
@@ -23,29 +22,22 @@ $username = $_SESSION['username'];
         
         <div id="game-container">
             <div id="puzzle">
-                <img id="puzzle-image" src="" alt="Puzzle Image">
-                
+                <img id="puzzle-image" src="" alt="Puzzle Image" style="max-width: 300px;">
             </div>
-            <input type="text" id="answer" placeholder="Enter your answer">
-                <button onclick="checkAnswer()">Submit</button>
+            <input type="number" id="answer" placeholder="Enter the number of bananas">
+            <button onclick="checkAnswer()">Submit</button>
             <p>Score: <span id="score">0</span></p>
-            <button onclick="loadNextPuzzle()">Next Puzzle</button>
+            <button onclick="fetchBananaQuestion()">Next Puzzle</button>
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
         </div>
         <button onclick="logout()">Logout</button>
     </div>
 
     <script>
-        let currentQuestion = 0;
         let score = 0;
         let timeLeft = 30;
         let timer;
-        const puzzles = [
-            { image: 'https://www.sanfoh.com/uob/banana/data/tce25c4945f7e898920620665can68.png', solution: '8' },
-            { image: 'https://www.sanfoh.com/uob/banana/data/tcf78297aed7ad12fd47a985607n76.png', solution: '6' },
-            { image: 'https://www.sanfoh.com/uob/banana/data/td34b97440e19a5a12be585150fn80.png', solution: '0' },
-            { image: 'https://www.sanfoh.com/uob/banana/data/td395b9299083da2761ad6bde27n117.png', solution: '7' }
-        ];
+        let correctAnswer = null;
 
         function startTimer() {
             clearInterval(timer);
@@ -62,38 +54,38 @@ $username = $_SESSION['username'];
             }, 1000);
         }
 
-        function loadNextPuzzle() {
-            if (currentQuestion >= puzzles.length) {
-                alert('Game Over!');
-                saveScore();
-                return;
+        async function fetchBananaQuestion() {
+            try {
+                const proxyUrl = 'https://api.allorigins.win/get?url=';
+                const apiUrl = encodeURIComponent('http://marcconrad.com/uob/banana/api.php');
+                const response = await fetch(`${proxyUrl}${apiUrl}`);
+                const responseData = await response.json();
+                
+                const data = JSON.parse(responseData.contents);
+                console.log("API Response:", data);
+                
+                if (!data || !data.question || !data.solution) {
+                    throw new Error("Invalid API response format");
+                }
+                
+                document.getElementById('puzzle-image').src = data.question;
+                correctAnswer = parseInt(data.solution);
+                document.getElementById('answer').value = '';
+                startTimer();
+            } catch (error) {
+                console.error("Error fetching the puzzle:", error);
+                document.getElementById('puzzle-image').src = "";
+                document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh and try again.</p>";
             }
-            const puzzle = puzzles[currentQuestion];
-            document.getElementById('puzzle-image').src = puzzle.image;
-            document.getElementById('answer').value = '';
-            currentQuestion++;
-            startTimer();
         }
-        function loadNextPuzzle() {
-    if (currentQuestion >= puzzles.length) {
-        currentQuestion = 0; 
-    }
-    const puzzle = puzzles[currentQuestion];
-    document.getElementById('puzzle-image').src = puzzle.image;
-    document.getElementById('answer').value = '';
-    currentQuestion++;
-    startTimer();
-}
-
 
         function checkAnswer() {
-            const answer = document.getElementById('answer').value;
-            const correctAnswer = puzzles[currentQuestion - 1].solution;
+            const answer = parseInt(document.getElementById('answer').value);
             if (answer === correctAnswer) {
                 score++;
                 document.getElementById('score').textContent = score;
             }
-            loadNextPuzzle();
+            fetchBananaQuestion();
         }
 
         function saveScore() {
@@ -103,43 +95,35 @@ $username = $_SESSION['username'];
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send('username=<?php echo $username; ?>&score=' + score);
         }
-        function restartGame() {
-            score = 0;
-            currentQuestion = 0;
-            document.getElementById('score').textContent = score;
-            document.getElementById('new-game').style.display = 'none';
-            loadNextPuzzle();
-        }
+
         function logout() {
-            window.location.href = 'login.php';
+            window.location.href = 'logout.php';
         }
 
         window.onload = function() {
-            loadNextPuzzle();
+            fetchBananaQuestion();
         };
-         
-           document.addEventListener("DOMContentLoaded", function () {
-    const clickSound = new Audio("sounds/click.wav");
 
-    function playClickSound() {
-        const soundClone = clickSound.cloneNode();
-        soundClone.volume = 1.0; 
-        soundClone.play().catch(error => console.error("Playback error:", error));
-    }
+        document.addEventListener("DOMContentLoaded", function () {
+            const clickSound = new Audio("sounds/click.wav");
 
-    
-    document.body.addEventListener("click", function (event) {
-        if (event.target.tagName === "BUTTON") {
-            playClickSound();
-        }
-    });
+            function playClickSound() {
+                const soundClone = clickSound.cloneNode();
+                soundClone.volume = 1.0;
+                soundClone.play().catch(error => console.error("Playback error:", error));
+            }
 
-    document.body.addEventListener("click", function unlockAudio() {
-        clickSound.play().catch(() => {});
-        document.body.removeEventListener("click", unlockAudio);
-    });
-});
+            document.body.addEventListener("click", function (event) {
+                if (event.target.tagName === "BUTTON") {
+                    playClickSound();
+                }
+            });
 
+            document.body.addEventListener("click", function unlockAudio() {
+                clickSound.play().catch(() => {});
+                document.body.removeEventListener("click", unlockAudio);
+            });
+        });
     </script>
 </body>
 </html>
