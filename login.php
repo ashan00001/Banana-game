@@ -76,3 +76,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
             </form>
             <p>Don't have an account? <a href="#" onclick="toggleForm()">Create an account</a></p>
         </div>
+        <div id="registerForm" class="hidden">
+            <h3>Create an Account</h3>
+            <form action="" method="POST">
+                <label for="new_username">Username:</label>
+                <input type="text" name="new_username" required><br><br>
+                <label for="new_password">Password:</label>
+                <input type="password" name="new_password" required><br><br>
+                <button type="submit" name="register">Register</button>
+            </form>
+            <p>Already have an account? <a href="#" onclick="toggleForm()">Login here</a></p>
+        </div>
+    </div>
+</body>
+</html>
