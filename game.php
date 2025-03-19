@@ -51,8 +51,6 @@ $currentHighScore = $result['highscore'] ?? 0;
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
             <button onclick="logout()">Logout</button>
         </div>
-        
-        <audio id="logout-sound" src="logout.mp3"></audio>
     </div>
     <script>
         let score = 0;
