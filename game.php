@@ -49,8 +49,9 @@ $currentHighScore = $result['highscore'] ?? 0;
             <p>Score: <span id="score">0</span></p>
             <button onclick="fetchBananaQuestion()">New Game</button>
             <button onclick="window.location.href='save_score.php'">View High Scores</button>
+            <button onclick="logout()">Logout</button>
         </div>
-        <button onclick="logout()">Logout</button>
+        
         <audio id="logout-sound" src="logout.mp3"></audio>
     </div>
     <script>
