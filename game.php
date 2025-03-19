@@ -34,29 +34,45 @@ $currentHighScore = $result['highscore'] ?? 0;
             <p>🏆 High Score: <?php echo $currentHighScore; ?></p>
         </div>
     </div>
+
     <div id="highscore-container">
         <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
-    <div class="container">
-        <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
-        <p>Time Left: <span id="timer">30</span> seconds</p>
-        <div id="game-container">
-            <div id="puzzle">
-                <img id="puzzle-image" src="" alt="Puzzle Image">
-            </div>
-            <input type="number" id="answer" placeholder="Enter the number of bananas">
-            <button onclick="checkAnswer()">Submit</button>
-            <p>Score: <span id="score">0</span></p>
-            <button onclick="fetchBananaQuestion()">New Game</button>
-            <button onclick="window.location.href='save_score.php'">View High Scores</button>
-            <button onclick="logout()">Logout</button>
+
+    <!-- Timer Section (Moved Below High Score) -->
+<div id="timer-container">
+    <p> <span id="timer">00:30</span></p>
+</div>
+<audio id="warning-sound">
+    <source src="sounds/warning.mp3" type="audio/mpeg">
+    <source src="sounds/warning.wav" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>
+
+
+<div class="container">
+    <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
+    <div id="game-container">
+        <div id="puzzle">
+            <img id="puzzle-image" src="" alt="Puzzle Image">
         </div>
+        <input type="number" id="answer" placeholder="Enter the number of bananas">
+        <button onclick="checkAnswer()">Submit</button>
+        <p>Score: <span id="score">0</span></p>
+        <button onclick="fetchBananaQuestion()">New Game</button>
+        <button onclick="window.location.href='save_score.php'">View High Scores</button>
+        <button onclick="logout()">Logout</button>
     </div>
+</div>
+       
+    </div>
+
     <script>
         let score = 0;
         let timeLeft = 30;
         let timer;
         let correctAnswer = null;
+        const warningSound = document.getElementById("warning-sound");
 
         function toggleProfile() {
             const profileDetails = document.getElementById("profile-details");
@@ -66,16 +82,34 @@ $currentHighScore = $result['highscore'] ?? 0;
         function startTimer() {
             clearInterval(timer);
             timeLeft = 30;
-            document.getElementById('timer').textContent = timeLeft;
+            updateTimerDisplay(timeLeft);
+
             timer = setInterval(() => {
                 timeLeft--;
-                document.getElementById('timer').textContent = timeLeft;
+                updateTimerDisplay(timeLeft);
+
+                // Activate warning effect in last 10 seconds
+                if (timeLeft <= 10) {
+                    document.getElementById('timer').style.color = "red";
+
+                    if (timeLeft > 0) {
+                        warningSound.play();
+                    }
+                }
+
                 if (timeLeft <= 0) {
                     clearInterval(timer);
                     alert('Game Over! Time ran out.');
                     saveScore();
                 }
             }, 1000);
+        }
+
+        function updateTimerDisplay(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            let formattedTime = `0${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            document.getElementById('timer').textContent = formattedTime;
         }
 
         async function fetchBananaQuestion() {
@@ -125,6 +159,7 @@ $currentHighScore = $result['highscore'] ?? 0;
         window.onload = function() {
             fetchBananaQuestion();
         };
+
         document.addEventListener("DOMContentLoaded", function () {
             const clickSound = new Audio("sounds/click.wav");
 
