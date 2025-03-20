@@ -107,7 +107,7 @@ button:hover {
 /* Timer Container - Left Side */
 #timer-container {
     position: absolute;
-    top: 50%;
+    top: 150%;
     left: 10px;
     transform: translateY(-50%);
     text-align: center;
