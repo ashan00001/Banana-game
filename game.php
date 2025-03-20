@@ -36,7 +36,7 @@ $currentHighScore = $result['highscore'] ?? 0;
     </div>
 
     <div id="highscore-container">
-        <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
+        <p>🏆 Current High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
 
     <!-- Lives Display -->
