@@ -197,6 +197,10 @@ $currentHighScore = $result['highscore'] ?? 0;
         window.onload = function() {
             fetchBananaQuestion();
         };
+        window.onload = function() {
+    lives = 3; // Ensure the game starts with 3 lives
+    updateLives();
+};
 
         document.addEventListener("DOMContentLoaded", function () {
             const clickSound = new Audio("sounds/click.wav");
