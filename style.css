@@ -167,11 +167,13 @@ button:hover {
     100% { opacity: 0.5; }
 }
 #lives-container {
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 10px;
+    text-align:right; /* Align left under profile */
+    font-size: 40px; /* Adjust size */
+    margin-bottom: 15px;
 }
 
+/* Lives Styling */
 #lives-container span {
-    margin: 0 5px;
+    margin: 30px;
+    color: red; /* Heart color */
 }
