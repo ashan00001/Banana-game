@@ -113,19 +113,6 @@ button:hover {
     text-align: center;
 }
 
-/* Timer Display */
-#timer {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 60px;
-    font-weight: bold;
-    color: #0f0;
-    background: black;
-    padding: 15px 30px;
-    border-radius: 10px;
-    display: inline-block;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
-    transition: all 0.3s ease-in-out;
-}
 
 /* Flashing Effect for Last 10 Seconds */
 .timer-warning {
@@ -147,7 +134,7 @@ button:hover {
     font-weight: bold;
     color: #0f0; /* Green Color (Safe Time) */
     background: black;
-    padding: 15px 30px;
+    padding: 15px 60px;
     border-radius: 10px;
     display: inline-block;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); /* Neon Glow */
