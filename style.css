@@ -70,7 +70,7 @@ button:hover {
 /* Profile Container - Top Right */
 #profile-container {
     position: absolute;
-    top: 10px;
+    top: 130px;
     right: 10px;
     background: rgba(0, 0, 0, 0.7);
     color: white;
