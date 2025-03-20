@@ -166,3 +166,12 @@ button:hover {
     0% { opacity: 1; }
     100% { opacity: 0.5; }
 }
+#lives-container {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#lives-container span {
+    margin: 0 5px;
+}
