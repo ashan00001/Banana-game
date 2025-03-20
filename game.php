@@ -82,6 +82,24 @@ $currentHighScore = $result['highscore'] ?? 0;
             profileDetails.style.display = (profileDetails.style.display === "block") ? "none" : "block";
         }
 
+        async function fetchBananaQuestion() {
+            try {
+                const response = await fetch('https://marcconrad.com/uob/banana/api.php', { cache: "no-store" });
+                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+                const data = await response.json();
+                if (!data || !data.question || !data.solution) throw new Error("Invalid API response format");
+
+                document.getElementById('puzzle-image').src = data.question;
+                correctAnswer = parseInt(data.solution);
+                document.getElementById('answer').value = '';
+                startTimer();
+            } catch (error) {
+                console.error("Error fetching the puzzle:", error);
+                document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh.</p>";
+            }
+        }
+
         function updateLives() {
             let livesContainer = document.getElementById("lives-container");
             livesContainer.innerHTML = "";
@@ -132,24 +150,6 @@ $currentHighScore = $result['highscore'] ?? 0;
             document.getElementById('timer').textContent = formattedTime;
         }
 
-        async function fetchBananaQuestion() {
-            try {
-                const response = await fetch('https://marcconrad.com/uob/banana/api.php', { cache: "no-store" });
-                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
-
-                const data = await response.json();
-                if (!data || !data.question || !data.solution) throw new Error("Invalid API response format");
-
-                document.getElementById('puzzle-image').src = data.question;
-                correctAnswer = parseInt(data.solution);
-                document.getElementById('answer').value = '';
-                startTimer();
-            } catch (error) {
-                console.error("Error fetching the puzzle:", error);
-                document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh.</p>";
-            }
-        }
-
         function checkAnswer() {
             const answer = parseInt(document.getElementById('answer').value);
             if (answer === correctAnswer) {
@@ -182,25 +182,15 @@ $currentHighScore = $result['highscore'] ?? 0;
         }
 
         function logout() {
-            const logoutSound = document.getElementById('logout-sound');
-            logoutSound.play();
             setTimeout(() => {
                 window.location.href = 'logout.php';
             }, 1000);
         }
 
-        window.onload = function() {
+        document.addEventListener("DOMContentLoaded", function () {
             fetchBananaQuestion();
             updateLives();
-        };
-
-        window.onload = function() {
-            fetchBananaQuestion();
-        };
-        window.onload = function() {
-    lives = 3; // Ensure the game starts with 3 lives
-    updateLives();
-};
+        });
 
         document.addEventListener("DOMContentLoaded", function () {
             const clickSound = new Audio("sounds/click.wav");
@@ -222,8 +212,6 @@ $currentHighScore = $result['highscore'] ?? 0;
                 document.body.removeEventListener("click", unlockAudio);
             });
         });
-
-
     </script>
 </body>
 </html>
