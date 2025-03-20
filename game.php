@@ -39,32 +39,32 @@ $currentHighScore = $result['highscore'] ?? 0;
         <p>🏆 High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
 
-    <!-- Timer Section (Moved Below High Score) -->
-<div id="timer-container">
-    <p> <span id="timer">00:30</span></p>
-</div>
-<audio id="warning-sound">
-    <source src="sounds/warning.mp3" type="audio/mpeg">
-    <source src="sounds/warning.wav" type="audio/wav">
-    Your browser does not support the audio element.
-</audio>
+    <!-- Lives Display -->
+    <div id="lives-container"></div>
 
-
-<div class="container">
-    <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
-    <div id="game-container">
-        <div id="puzzle">
-            <img id="puzzle-image" src="" alt="Puzzle Image">
-        </div>
-        <input type="number" id="answer" placeholder="Enter the number of bananas">
-        <button onclick="checkAnswer()">Submit</button>
-        <p>Score: <span id="score">0</span></p>
-        <button onclick="fetchBananaQuestion()">New Game</button>
-        <button onclick="window.location.href='save_score.php'">View High Scores</button>
-        <button onclick="logout()">Logout</button>
+    <!-- Timer Section -->
+    <div id="timer-container">
+        <p><span id="timer">00:30</span></p>
     </div>
-</div>
-       
+    <audio id="warning-sound">
+        <source src="sounds/warning.mp3" type="audio/mpeg">
+        <source src="sounds/warning.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="container">
+        <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
+        <div id="game-container">
+            <div id="puzzle">
+                <img id="puzzle-image" src="" alt="Puzzle Image">
+            </div>
+            <input type="number" id="answer" placeholder="Enter the number of bananas">
+            <button onclick="checkAnswer()">Submit</button>
+            <p>Score: <span id="score">0</span></p>
+            <button onclick="fetchBananaQuestion()">New Game</button>
+            <button onclick="window.location.href='save_score.php'">View High Scores</button>
+            <button onclick="logout()">Logout</button>
+        </div>
     </div>
 
     <script>
@@ -72,11 +72,33 @@ $currentHighScore = $result['highscore'] ?? 0;
         let timeLeft = 30;
         let timer;
         let correctAnswer = null;
+        let lives = 3;
+        let bonusLifeEarned = false;
+        let currentHighScore = <?php echo $currentHighScore; ?>;
         const warningSound = document.getElementById("warning-sound");
 
         function toggleProfile() {
             const profileDetails = document.getElementById("profile-details");
             profileDetails.style.display = (profileDetails.style.display === "block") ? "none" : "block";
+        }
+
+        function updateLives() {
+            let livesContainer = document.getElementById("lives-container");
+            livesContainer.innerHTML = "";
+
+            for (let i = 0; i < lives; i++) {
+                let lifeIcon = document.createElement("span");
+                lifeIcon.textContent = "❤️";
+                lifeIcon.style.fontSize = "24px";
+                livesContainer.appendChild(lifeIcon);
+            }
+
+            if (bonusLifeEarned) {
+                let bonusLifeIcon = document.createElement("span");
+                bonusLifeIcon.textContent = "🖤";
+                bonusLifeIcon.style.fontSize = "24px";
+                livesContainer.appendChild(bonusLifeIcon);
+            }
         }
 
         function startTimer() {
@@ -88,10 +110,8 @@ $currentHighScore = $result['highscore'] ?? 0;
                 timeLeft--;
                 updateTimerDisplay(timeLeft);
 
-                // Activate warning effect in last 10 seconds
                 if (timeLeft <= 10) {
                     document.getElementById('timer').style.color = "red";
-
                     if (timeLeft > 0) {
                         warningSound.play();
                     }
@@ -137,6 +157,19 @@ $currentHighScore = $result['highscore'] ?? 0;
                 document.getElementById('score').textContent = score;
                 document.getElementById('current-score').textContent = score;
                 fetchBananaQuestion();
+
+                if (score > currentHighScore && !bonusLifeEarned) {
+                    lives++;
+                    bonusLifeEarned = true;
+                    alert("🎉 You beat the high score and earned an extra life! 🖤");
+                }
+            } else {
+                lives--;
+                updateLives();
+                if (lives <= 0) {
+                    alert('❌ Game Over! No more lives left.');
+                    saveScore();
+                }
             }
         }
 
@@ -155,6 +188,11 @@ $currentHighScore = $result['highscore'] ?? 0;
                 window.location.href = 'logout.php';
             }, 1000);
         }
+
+        window.onload = function() {
+            fetchBananaQuestion();
+            updateLives();
+        };
 
         window.onload = function() {
             fetchBananaQuestion();
@@ -180,6 +218,8 @@ $currentHighScore = $result['highscore'] ?? 0;
                 document.body.removeEventListener("click", unlockAudio);
             });
         });
+
+
     </script>
 </body>
 </html>
