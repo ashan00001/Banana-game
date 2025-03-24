@@ -65,7 +65,9 @@ $isPro = ($username === $bestPlayer);
     </audio>
 
     
-    <h1 id="game-title">🍌 Banana Puzzle Challenge 🍌</h1>
+    <h1 id="game-title">🎮🍌 Banana puzzle Challenge 🍌🎮</h1>
+
+
     <div id="badge-container"> <h2>Welcome, <?php if ($isPro): ?>
         <p class="gold-badge">🏅 Pro Player: <?php echo htmlspecialchars($username); ?> 🏅</p>
     <?php endif; ?>!</h2></div>
