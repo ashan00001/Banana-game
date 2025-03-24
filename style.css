@@ -174,3 +174,27 @@ button:hover {
     font-size: 40px; /* Heart icon size */
     margin: 5px;
 }
+/* 🎮 Animated Game Title */
+#game-title {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 45px;
+    color: #fbc531;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    animation: bounce-glow 2s infinite alternate ease-in-out, slide-in 1.5s ease-out;
+}
+
+/* ✨ Glow & Bounce Effect */
+@keyframes bounce-glow {
+    0% { transform: translateY(0); text-shadow: 0 0 10px #fbc531, 0 0 20px #f39c12; }
+    50% { transform: translateY(-10px); text-shadow: 0 0 20px #ffcc00, 0 0 40px #e67e22; }
+    100% { transform: translateY(0); text-shadow: 0 0 10px #fbc531, 0 0 20px #f39c12; }
+}
+
+/* 🚀 Slide-in Effect */
+@keyframes slide-in {
+    from { transform: translateX(-100vw); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
