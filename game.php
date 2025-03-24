@@ -15,6 +15,16 @@ $result = $stmt->fetch();
 $totalGames = $result['total_games'] ?? 0;
 $totalLosses = $result['losses'] ?? 0;
 $currentHighScore = $result['highscore'] ?? 0;
+// Fetch player stats & highest scorer
+$stmt = $pdo->prepare('SELECT username, MAX(score) AS highscore FROM high_scores GROUP BY username ORDER BY highscore DESC LIMIT 1');
+$stmt->execute();
+$topScorer = $stmt->fetch();
+$bestPlayer = $topScorer['username'] ?? null;
+$highestScore = $topScorer['highscore'] ?? 0;
+
+// Check if current user is the highest scorer
+$isPro = ($username === $bestPlayer);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +34,7 @@ $currentHighScore = $result['highscore'] ?? 0;
     <title>Banana Puzzle Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body><div class="container">
     <div id="profile-container" onclick="toggleProfile()">
         <p>👤 <?php echo htmlspecialchars($username); ?></p>
         <div id="profile-details">
@@ -38,6 +48,8 @@ $currentHighScore = $result['highscore'] ?? 0;
     <div id="highscore-container">
         <p>🏆 Current High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
+    
+
 
     <!-- Lives Display -->
     <div id="lives-container"></div>
@@ -52,12 +64,15 @@ $currentHighScore = $result['highscore'] ?? 0;
         Your browser does not support the audio element.
     </audio>
 
-    <div class="container">
-        <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
-        <div id="game-container">
+    
+    <h1 id="game-title">🍌 Banana Puzzle Challenge 🍌</h1>
+    <div id="badge-container"> <h2>Welcome, <?php if ($isPro): ?>
+        <p class="gold-badge">🏅 Pro Player: <?php echo htmlspecialchars($username); ?> 🏅</p>
+    <?php endif; ?>!</h2></div>
+        
             <div id="puzzle">
                 <img id="puzzle-image" src="" alt="Puzzle Image">
-            </div>
+            </div><div id="game-container">
             <input type="number" id="answer" placeholder="Enter the number of bananas">
             <button onclick="checkAnswer()">Submit</button>
             <p>Score: <span id="score">0</span></p>
