@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     </script>
     <style>
         .hidden { display: none; }
-        .container { text-align: center; width: 300px; margin: auto; }
+        .container { text-align: center; width: 500px; margin: auto; }
         .error { color: red; }
         .success { color: green; }
     </style>
