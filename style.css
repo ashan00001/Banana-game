@@ -214,3 +214,20 @@ button:hover {
     position: relative;
     z-index: 1;
 }
+/* Background styling */
+body {
+    background: url('images/image2.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Optional: Add transparency to the form */
+.form-container {
+    background: rgba(255, 255, 255, 0.8); /* Light transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    margin: auto;
+    text-align: center;
+}
