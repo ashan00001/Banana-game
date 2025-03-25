@@ -198,3 +198,19 @@ button:hover {
     from { transform: translateX(-100vw); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
+/* 🎥 Full-Screen Video Background */
+#bg-video {
+    position: fixed;  /* Fixed to stay behind all elements */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover; /* Cover the whole screen */
+    z-index: -1; /* Send it behind the game */
+}
+
+
+.container {
+    position: relative;
+    z-index: 1;
+}
