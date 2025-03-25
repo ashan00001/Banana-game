@@ -34,7 +34,7 @@ $isPro = ($username === $bestPlayer);
     <title>Banana Puzzle Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body><div class="container">
+<body>
     <div id="profile-container" onclick="toggleProfile()">
         <p>👤 <?php echo htmlspecialchars($username); ?></p>
         <div id="profile-details">
@@ -48,10 +48,13 @@ $isPro = ($username === $bestPlayer);
     <div id="highscore-container">
         <p>🏆 Current High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
+    
     <video id="bg-video" autoplay loop muted playsinline>
     <source src="background.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
+
+
 
 
     <!-- Lives Display -->
@@ -67,13 +70,11 @@ $isPro = ($username === $bestPlayer);
         Your browser does not support the audio element.
     </audio>
 
-    
-    <h1 id="game-title">Banana puzzle Challenge 🍌🎮</h1>
+    <div class="container">
+    <h1 id="game-title">Banana puzzle challenge 🍌🎮</h1>
 
-
-    <div id="badge-container"> <h2>Welcome, <?php if ($isPro): ?>
-        <p class="gold-badge">🏅 Pro Player: <?php echo htmlspecialchars($username); ?> 🏅</p>
-    <?php endif; ?>!</h2></div>
+    <div id="badge-container"> <h2> <?php if ($isPro): ?><p class="gold-badge">🏅 Pro Player: <?php echo htmlspecialchars($username); ?> 🏅</p>
+    <?php endif; ?></h2></div>
         
             <div id="puzzle">
                 <img id="puzzle-image" src="" alt="Puzzle Image">
@@ -138,6 +139,13 @@ $isPro = ($username === $bestPlayer);
                 livesContainer.appendChild(bonusLifeIcon);
             }
         }
+        
+        document.addEventListener("click", function() {
+    let video = document.getElementById("bg-video");
+    if (video.paused) {
+        video.play().catch(error => console.error("Video play failed:", error));
+    }
+});
 
         function startTimer() {
             clearInterval(timer);
