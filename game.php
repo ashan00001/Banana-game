@@ -48,7 +48,10 @@ $isPro = ($username === $bestPlayer);
     <div id="highscore-container">
         <p>🏆 Current High Score: <span id="current-highscore"><?php echo $currentHighScore; ?></span></p>
     </div>
-    
+    <video id="bg-video" autoplay loop muted playsinline>
+    <source src="background.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
 
     <!-- Lives Display -->
