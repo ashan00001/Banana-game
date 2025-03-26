@@ -1,12 +1,12 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
+session_start(); // Start session to track user login
+if (!isset($_SESSION['username'])) { // Redirect to login page if user is not logged in
     header('Location: login.php');
     exit();
 }
 
-$username = $_SESSION['username'];
-require_once 'config.php';
+$username = $_SESSION['username']; // Store logged-in username
+require_once 'config.php';// Include database configuration
 
 // Fetch player stats
 $stmt = $pdo->prepare('SELECT COUNT(*) AS total_games, SUM(CASE WHEN score = 0 THEN 1 ELSE 0 END) AS losses, MAX(score) AS highscore FROM high_scores WHERE username = ?');
@@ -102,7 +102,7 @@ $isPro = ($username === $bestPlayer);
             const profileDetails = document.getElementById("profile-details");
             profileDetails.style.display = (profileDetails.style.display === "block") ? "none" : "block";
         }
-
+//Use Banana API
         async function fetchBananaQuestion() {
             try {
                 const response = await fetch('https://marcconrad.com/uob/banana/api.php', { cache: "no-store" });
@@ -120,7 +120,7 @@ $isPro = ($username === $bestPlayer);
                 document.getElementById('puzzle').innerHTML = "<p style='color: red;'>Failed to load puzzle. Please refresh.</p>";
             }
         }
-
+// function for update extra lives
         function updateLives() {
             let livesContainer = document.getElementById("lives-container");
             livesContainer.innerHTML = "";
@@ -146,7 +146,7 @@ $isPro = ($username === $bestPlayer);
         video.play().catch(error => console.error("Video play failed:", error));
     }
 });
-
+//Create 30 Sec Timer 
         function startTimer() {
             clearInterval(timer);
             timeLeft = 30;
@@ -177,7 +177,7 @@ $isPro = ($username === $bestPlayer);
             let formattedTime = `0${minutes}:${secs < 10 ? '0' : ''}${secs}`;
             document.getElementById('timer').textContent = formattedTime;
         }
-
+// Ckeck player answer
         function checkAnswer() {
             const answer = parseInt(document.getElementById('answer').value);
             if (answer === correctAnswer) {
@@ -200,7 +200,7 @@ $isPro = ($username === $bestPlayer);
                 }
             }
         }
-
+// save score
         function saveScore() {
             clearInterval(timer);
             const xhr = new XMLHttpRequest();
@@ -234,7 +234,7 @@ $isPro = ($username === $bestPlayer);
                     playClickSound();
                 }
             });
-
+             // Initialize game
             document.body.addEventListener("click", function unlockAudio() {
                 clickSound.play().catch(() => {});
                 document.body.removeEventListener("click", unlockAudio);
