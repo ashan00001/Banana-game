@@ -177,7 +177,7 @@ $isPro = ($username === $bestPlayer);
             let formattedTime = `0${minutes}:${secs < 10 ? '0' : ''}${secs}`;
             document.getElementById('timer').textContent = formattedTime;
         }
-// Ckeck player answer
+// Ckeck  answer
         function checkAnswer() {
             const answer = parseInt(document.getElementById('answer').value);
             if (answer === correctAnswer) {
